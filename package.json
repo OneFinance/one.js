@@ -17,7 +17,7 @@
     },
     "bin": {
         "one-balances": "./bin/one-balances",
-        "one-check-jwt-ttl": "./bin/one-check-jwt-ttl"
+        "one-jwt-check-ttl": "./bin/one-jwt-check-ttl"
     },
     "scripts": {
         "test": "node ./tests/"
