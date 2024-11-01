@@ -1,0 +1,37 @@
+{
+    "name": "onefinance",
+    "version": "0.1.0",
+    "description": "Unofficial SDK for the One Finance (https://one.app) API",
+    "main": "onefinance.js",
+    "type": "module",
+    "exports": {
+        ".": "./onefinance.js",
+        "./*": "./*"
+    },
+    "imports": {
+        "onefinance": "./onefinance.js"
+    },
+    "bin": {
+        "one-balances": "./bin/one-balances",
+        "one-check-jwt-ttl": "./bin/one-check-jwt-ttl"
+    },
+    "scripts": {
+        "test": "node ./tests/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/OneFinance/onefinance.js.git"
+    },
+    "keywords": [
+        "One",
+        "Finance",
+        "one.app",
+        "onefinance.com"
+    ],
+    "author": "AJ ONeal <aj@therootcompany.com> (https://therootcompany.com/)",
+    "license": "SEE LICENSE IN LICENSE",
+    "bugs": {
+        "url": "https://github.com/OneFinance/onefinance.js/issues"
+    },
+    "homepage": "https://github.com/OneFinance/onefinance.js#readme"
+}
