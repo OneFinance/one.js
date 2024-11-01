@@ -4,6 +4,10 @@
     "description": "Unofficial SDK for the One Finance (https://one.app) API",
     "main": "onefinance.js",
     "type": "module",
+    "files": [
+        "onefinance.js",
+        "uuid.js"
+    ],
     "exports": {
         ".": "./onefinance.js",
         "./*": "./*"
