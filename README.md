@@ -1,46 +1,64 @@
-# one.js
+# OneFinance.js
 
-Unofficial SDK for the OneFinance.com bank API
+Unofficial SDK for the [One Finance](https://one.app) bank API
 
 ```js
-let pkg = require(`${require.main.path}/package.json`); 
-let request = require('@root/request').setDefaults({
-  userAgent: `${pkg.name}/${pkg.version}`,
-});
+let One = require("onefinance");
 
-let jwt = 'xxxx.yyyy.zzzz';
+async function main() {
+    let jwt = process.argv[2];
 
-request({
-  url: 'https://api.onefinance.com/banking/command',
-  headers: {
-    'Authorization': `Bearer ${jwt}`,
-    'Origin': 'https://web.onefinance.com',
-    'Referer': 'https://web.onefinance.com/',
-    'x-safe-request-id': '???',
-  },
-  json: {
-    "command_name": "TRANSFER_FUNDS_OWNED_POCKET",
-    "origin_pocket_id": "pocket.xxxx",
-    "destination_pocket_id": "pocket.yyyy",
-    "amount": 12.88,
-    "notes": "Ice cream run",
-    "accessToken": jwt
-  }
-});
+    await One.init(jwt);
+
+    let pockets = await One.pockets();
+    console.info(pockets);
+}
+
+main();
 ```
 
-# List Pockets
+# REST
 
-```sh
-#!/bin/sh
-set -e
-set -u
+### List "Pockets" (Accounts) + Balances
 
-my_user_id="$(cat ~/.config/one/user_id)"
-my_jwt="$(cat ~/.config/one/bearer.jwt)"
-my_uuid="$(uuidgen)"
+```text
+GET https://api.one.app/banking/v2/pockets?user_id=${userId}
+Authorization: Bearer ${siteJwt}
+X-Safe-Request-ID: ${nonceUuid}
+```
 
-curl --fail-with-body -sS "https://api.one.app/banking/v2/pockets?user_id=${my_user_id}" \
-    -H "Authorization: Bearer ${my_jwt}" \
-    -H "X-Safe-Request-ID: ${my_uuid}"
+### Internal Transfer
+
+```http
+POST https://api.one.app/banking/command
+Authorization: Bearer ${siteJwt}
+X-Safe-Request-ID: ${nonceUuid}
+Content-Type: application/json
+```
+
+```js
+{
+    "command_name": "TRANSFER_FUNDS_OWNED_POCKET",
+    "origin_pocket_id": `${origin.pocket_id}`,
+    "destination_pocket_id": `${destination.pocket_id}`,
+    "amount": 100.0
+}
+```
+
+## Transfer Out to Bank
+
+```http
+POST https://api.one.app/banking/command
+Authorization: Bearer ${siteJwt}
+X-Safe-Request-ID: ${nonceUuid}
+Content-Type: application/json
+```
+
+```js
+{
+    "command_name": "DEBIT_POCKET_TO_LINKED_ACCOUNT",
+    "pocket_id": `${origin.pocket_id}`,
+    "linked_account_id": `${destination.linked_account_id}`,
+    "amount": 100.0
+}
 ```
