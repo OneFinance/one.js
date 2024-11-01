@@ -28,3 +28,19 @@ request({
   }
 });
 ```
+
+# List Pockets
+
+```sh
+#!/bin/sh
+set -e
+set -u
+
+my_user_id="$(cat ~/.config/one/user_id)"
+my_jwt="$(cat ~/.config/one/bearer.jwt)"
+my_uuid="$(uuidgen)"
+
+curl --fail-with-body -sS "https://api.one.app/banking/v2/pockets?user_id=${my_user_id}" \
+    -H "Authorization: Bearer ${my_jwt}" \
+    -H "X-Safe-Request-ID: ${my_uuid}"
+```
